@@ -1,0 +1,30 @@
+---
+- include_tasks: get_token.yml
+  when: bsn_cookie is undefined
+  
+- name: Get Version Information
+  register: bsn_version
+  uri:
+    url: "{{ bsn_url }}/data/controller/core/version/appliance"
+    method: GET
+    headers:
+      Cookie: "{{ bsn_cookie }}"
+    validate_certs: "{{ bsn_validate_certs }}"
+
+- name: Get Logging Information
+  register: bsn_logging
+  uri:
+    url: "{{bsn_url}}/data/controller/os/config/global/logging/server"
+    method: GET
+    headers:
+      Cookie: "{{ bsn_cookie }}"
+    validate_certs: "{{ bsn_validate_certs }}"
+
+- name: Set BigSwitch Version
+  set_fact:
+    bsn_version: "{{ bsn_version.json[0].version }}"
+
+- name: Set BigSwitch Logging
+  set_fact:
+    bsn_logging: "{{ bsn_logging.json[0].server }}"
+

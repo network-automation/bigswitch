@@ -1,0 +1,15 @@
+---
+- name: get login token
+  register: bsn_auth
+  uri:
+    url: "{{ bsn_url }}/auth/login"
+    method: POST
+    body:
+      user: "{{ bsn_username }}"
+      password: "{{ bsn_password }}"
+    body_format: json
+    validate_certs: "{{ bsn_validate_certs }}"
+
+- name: set login token
+  set_fact:
+    bsn_cookie: "session_cookie={{ bsn_auth.json.session_cookie }}"
