@@ -24,7 +24,7 @@
   set_fact:
     bsn_version: "{{ bsn_version.json[0].version }}"
 
-- name: Set BigSwitch Logging
-  set_fact:
-    bsn_logging: "{{ bsn_logging.json[0].server }}"
+#- name: Set BigSwitch Logging
+#  set_fact:
+#    bsn_logging: "{{ bsn_logging.json[0].server }}"
 

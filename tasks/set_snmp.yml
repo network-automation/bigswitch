@@ -1,0 +1,36 @@
+---
+- include_tasks: get_token.yml
+  when: bsn_cookie is undefined
+
+- name: Get obfuscated secret
+  register: bsn_snmp_secret_raw
+  when: bsn_snmp_cleartext
+  uri:
+    url: "{{ bsn_url }}/rpc/controller/core/aaa/type-7-encode"
+    method: POST
+    body_format: json
+    body:
+      'plain-text': "{{ bsn_snmp_secret }}"
+    headers:
+      Cookie: "{{ bsn_cookie }}"
+    validate_certs: "{{ bsn_validate_certs }}"
+
+- name: Set obfuscated secret
+  set_fact:
+    bsn_snmp_secret: "{{ bsn_snmp_secret_raw.json['encoded-result'] }}"
+
+  
+- name: Set SNMP Community
+  uri:
+    url: "{{ bsn_url }}/data/controller/os/config/global/snmp/community"
+    method: PUT
+    body_format: json
+    body:
+      secret: "{{ bsn_snmp_secret }}"
+      permission: rw
+    headers:
+      Cookie: "{{ bsn_cookie }}"
+    status_code: 204
+    validate_certs: "{{ bsn_validate_certs }}"
+
+
