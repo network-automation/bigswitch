@@ -1,5 +1,6 @@
 ---
-- include_tasks: get_token.yml
+- name: get auth token
+  include_tasks: get_token.yml
   when: bsn_cookie is undefined
   
 - name: Get Version Information
