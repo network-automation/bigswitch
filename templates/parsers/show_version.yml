@@ -1,0 +1,26 @@
+---
+- name: parser version
+  parser_metadata:
+    version: 1.0
+    command: /data/controller/core/version/appliance
+    network_os: bsn
+
+- name: export system facts
+  export: yes
+  export_as: dict
+  register: system
+  extend: bigswitch
+  set_vars:
+    build_date: "{{ content[0]['build-date'] }}"
+    build_user: "{{ content[0]['build-user'] }}"
+    ci_build_bumber: "{{ content[0]['ci-build-number'] }}" 
+    ci_job_name: "{{ content[0]['ci-job-name'] }}" 
+    community_edition: "{{ content[0]['community-edition'] }}" 
+    edition: "{{ content[0].edition }}"  
+    product_type: "{{ content[0]['product-type'] }}" 
+    release_string: "{{ content[0]['release-string'] }}"
+    version: 
+      string: "{{ content[0].version }}"
+      major: "{{ content[0].version.split('.')[0] }}"
+      minor: "{{ content[0].version.split('.')[1] }}"
+      maint: "{{ content[0].version.split('.')[2] }}"

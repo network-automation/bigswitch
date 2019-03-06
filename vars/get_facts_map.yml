@@ -1,0 +1,16 @@
+---
+- command: /data/controller/core/version/appliance 
+  parser: show_version.yml
+  groups:
+    - all
+    - default
+    - system
+    - version
+
+- command: /data/controller/os/config/global/logging/server
+  parser: show_logging_remote.yml
+  groups:
+    - all
+    - default
+    - system
+    - logging

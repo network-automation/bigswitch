@@ -1,0 +1,35 @@
+---
+- name: parser logging
+  parser_metadata:
+    version: 1.0
+    command: /data/controller/os/config/global/logging/server
+    network_os: bsn
+
+- name: export system facts
+  export: yes
+  export_as: dict
+  register: logging
+  extend: bigswitch
+  when: content[0] is undefined
+  set_vars:
+    servers: []
+
+- name: export logging facts
+  export: yes
+  register: logging
+  extend: bigswitch
+  when: content[0] is defined
+  json_template:
+    template:
+      - key: "servers"
+        elements:
+          - key: address
+            value: "{{ item.server }}"
+          - key: port
+            value: "{{item.port }}"
+          - key: log_level
+            value: "{{ item['log_level'] }}"  
+        repeat_for: "{{ content }}"
+ 
+
+

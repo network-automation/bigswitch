@@ -1,7 +1,9 @@
 ---
 bsn_controller_addr: 127.0.0.1
 bsn_controller_port: 8443
-bsn_url: "https://{{ bsn_controller_addr }}:{{ bsn_controller_port }}/api/v1"
 bsn_username: admin
 bsn_password: bsn123
 bsn_validate_certs: no
+bsn_url: "https://{{ bsn_controller_addr }}:{{ bsn_controller_port }}/api/v1"
+
+bsn_get_facts_subset: "{{ subset | default('[default]') }}"

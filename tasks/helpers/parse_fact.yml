@@ -1,0 +1,26 @@
+---
+- name: get auth token
+  include_tasks: get_token.yml
+  when: bsn_cookie is undefined
+
+- name: "GET {{ bsn_command }}"
+  register: bsn_command_result
+  uri:
+    url: "{{ bsn_url + bsn_command }}"
+    method: GET
+    headers:
+      Cookie: "{{ bsn_cookie }}"
+    validate_certs: "{{ bsn_validate_certs }}"
+
+- name: "PARSE {{ bsn_command }}"
+  command_parser:
+    file: "{{ role_path }}/templates/parsers/{{ bsn_parser }}" #"{{ lookup('first_found', params) }} "
+    content: "{{ bsn_command_result.json }}"
+  vars:
+    params:
+      files: "{{ bsn_parser }}"
+      paths:
+        - "{{ playbook_dir }}/ansible_network/templates/parsers/bsn"
+        - "~/.ansible/ansible_network/templates/parsers/bsn"
+        - "/etc/ansible/ansible_network/templates/parsers/bsn"
+        - "{{ role_path }}/templates/parsers"
