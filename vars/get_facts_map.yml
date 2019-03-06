@@ -14,3 +14,10 @@
     - default
     - system
     - logging
+
+- command: /data/controller/applications/bcf/info/fabric/switch
+  parser: show_fabric_inventory.yml
+  groups:
+    - all
+    - default
+    - fabric

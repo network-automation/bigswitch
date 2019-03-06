@@ -3,7 +3,7 @@
   parser_metadata:
     version: 1.0
     command: /data/controller/os/config/global/logging/server
-    network_os: bsn
+    network_os: bigswitch
 
 - name: export system facts
   export: yes
@@ -30,6 +30,3 @@
           - key: log_level
             value: "{{ item['log_level'] }}"  
         repeat_for: "{{ content }}"
- 
-
-

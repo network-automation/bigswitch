@@ -1,0 +1,58 @@
+---
+- name: parser logging
+  parser_metadata:
+    version: 1.0
+    command: /data/controller/applications/bcf/info/fabric/switch
+    network_os: bigswitch
+
+- name: export fabric facts
+  export: yes
+  register: fabric
+  extend: bigswitch
+  when: content[0] is defined
+  json_template:
+    template:
+      - key: "inventory"
+        elements:
+          - key: asic
+            value: "{{ item.asic }}"
+          - key: connected
+            value: "{{item.connected }}"
+          - key: connected_since
+            value: "{{ item['connected-since'] }}"
+          - key: dpid
+            value: "{{ item.dpid }}"
+          - key: fabric_connection_state
+            value: "{{ item['fabric-connection-state'] }}"
+          - key: fabric_last_seen_time
+            value: "{{ item['fabric-last-seen-time'] }}"
+          - key: fabric_role
+            value: "{{ item['fabric-role'] }}"
+          - key: handshake_state
+            value: "{{ item['handshake-state'] }}"
+          - key: address
+            object:
+              - key: port
+                value: "{{ item['inet-address']['inet-port'] }}"
+              - key: ip
+                value: "{{ item['inet-address'].ip }}"
+          - key: lacp_interface_offset
+            value: "{{ item['lacp-interface-offset'] }}"
+          - key: lacp_system_mac
+            value: "{{ item['lacp-system-mac'] }}"
+          - key: leaf_group
+            value: "{{ item['leaf-group'] }}" 
+          - key: mac_address
+            value: "{{ item['mac-address'] }}"
+          - key: model_number_description
+            value: "{{ item['model-number-description'] }}"
+          - key: name
+            value: "{{ item.name }}"
+          - key: serial_number_description
+            value: "{{ item['serial-number-description'] }}"
+          - key: shutdown
+            value: "{{ item.shutdown }}"
+          - key: software_description
+            value: "{{ item['software-description'] }}"
+        repeat_for: "{{ content }}"
+

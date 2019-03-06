@@ -36,7 +36,7 @@ bsn_validate_certs: no
   gather_facts: no
   vars:
     - bsn_controller_addr: "{{ ansible_host }}"
-    - ansible_network_os: bsn
+    - ansible_network_os: bigswitch
 
   roles:
     - ansible-network.network-engine

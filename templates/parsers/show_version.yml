@@ -3,7 +3,7 @@
   parser_metadata:
     version: 1.0
     command: /data/controller/core/version/appliance
-    network_os: bsn
+    network_os: bigswitch
 
 - name: export system facts
   export: yes
