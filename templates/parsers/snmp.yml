@@ -16,6 +16,8 @@
     template:
       - key: trap_enabled
         value: "{{ snmp_data['trap-enabled'] }}"
+      - key: community
+        value: "{{ snmp_data.community }}"
       - key: "trap_host"
         elements:
           - key: server
