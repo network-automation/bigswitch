@@ -1,0 +1,25 @@
+---
+- name: parser snmp
+  parser_metadata:
+    version: 1.0
+    command: /data/controller/os/config/global/snmp
+    network_os: bigswitch
+
+- name: export snmp facts
+  export: yes
+  register: snmp
+  extend: bigswitch
+  loop: "{{ content }}"
+  loop_control:
+    loop_var: snmp_data
+  json_template:
+    template:
+      - key: trap_enabled
+        value: "{{ snmp_data['trap-enabled'] }}"
+      - key: "trap_host"
+        elements:
+          - key: server
+            value: "{{ item.server }}"
+          - key: udp_port
+            value: "{{ item['udp-port'] }}"
+        repeat_for: "{{ snmp_data['trap-host'] }}"

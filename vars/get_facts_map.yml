@@ -21,3 +21,11 @@
     - all
     - default
     - fabric
+
+- command: /data/controller/os/config/global/snmp
+  parser: snmp.yml
+  groups:
+    - all
+    - default
+    - snmp
+
